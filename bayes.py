@@ -14,6 +14,14 @@ class Bayes_Classifier:
       the system will proceed through training.  After running this method, the classifier 
       is ready to classify input text."""
 
+      self.posFreqDict = self.load("posFreqDict")
+      self.neuFreqDict = self.load("neuFreqDict")
+      self.negFreqDict = self.load("negFreqDict")
+
+      if(self.posFreqDict is None or self.negFreqDict is None or self.neuFreqDict is None):
+         train()
+
+
    def train(self):   
       """Trains the Naive Bayes Sentiment Classifier."""
 
@@ -23,13 +31,33 @@ class Bayes_Classifier:
          break
 
 
-
       for file in lFileList:
-         rating = str(fFileObj[2])[9:10]
+         rating = str(file[7:8])
          fileText = self.loadFile("movies_reviews/" + str(file))
          wordList = self.tokenize(fileText)
 
-         #print rating
+         for i in wordList:
+            if(rating < 3):
+               if i in self.negFreqDict:
+                  self.negFreqDict[i] += 1
+               else:
+                  self.negFreqDict[i] = 1
+            elif(rating < 4):
+               if i in self.neuFreqDict:
+                  self.neuFreqDict[i] += 1
+               else:
+                  self.neuFreqDict[i] = 1
+            else:
+               if i in self.posFreqDict:
+                  self.posFreqDict[i] += 1
+               else:
+                  self.posFreqDict[i] = 1
+
+      self.save(self.posFreqDict,"posFreqDict")
+      self.save(self.neuFreqDict,"neuFreqDict")
+      self.save(self.negFreqDict,"negFreqDict")
+      print self.posFreqDict
+
     
    def classify(self, sText):
       """Given a target string sText, this function returns the most likely document
