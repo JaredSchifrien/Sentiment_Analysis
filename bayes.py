@@ -7,19 +7,23 @@
 import math, os, pickle, re
 
 class Bayes_Classifier:
-
+   posFreqDict = dict()
+   neuFreqDict = dict()
+   negFreqDict = dict()
    def __init__(self):
       """This method initializes and trains the Naive Bayes Sentiment Classifier.  If a 
       cache of a trained classifier has been stored, it loads this cache.  Otherwise, 
       the system will proceed through training.  After running this method, the classifier 
       is ready to classify input text."""
 
-      self.posFreqDict = self.load("posFreqDict")
-      self.neuFreqDict = self.load("neuFreqDict")
-      self.negFreqDict = self.load("negFreqDict")
+      try:
+         self.posFreqDict = self.load("posFreqDict")
+         self.neuFreqDict = self.load("neuFreqDict")
+         self.negFreqDict = self.load("negFreqDict")
 
-      if(self.posFreqDict is None or self.negFreqDict is None or self.neuFreqDict is None):
-         train()
+      except:
+
+         self.train()
 
 
    def train(self):   
@@ -30,19 +34,23 @@ class Bayes_Classifier:
          lFileList = fFileObj[2]
          break
 
-
+      d= {}    
       for file in lFileList:
-         rating = str(file[7:8])
+         rating = int(file[7])
+         if rating in d:
+            d[rating] = d[rating]+1
+         else:
+            d[rating]=1
          fileText = self.loadFile("movies_reviews/" + str(file))
          wordList = self.tokenize(fileText)
 
          for i in wordList:
-            if(rating < 3):
+            if rating == 1:
                if i in self.negFreqDict:
                   self.negFreqDict[i] += 1
                else:
                   self.negFreqDict[i] = 1
-            elif(rating < 4):
+            elif rating < 4:
                if i in self.neuFreqDict:
                   self.neuFreqDict[i] += 1
                else:
@@ -52,7 +60,7 @@ class Bayes_Classifier:
                   self.posFreqDict[i] += 1
                else:
                   self.posFreqDict[i] = 1
-
+      print d
       self.save(self.posFreqDict,"posFreqDict")
       self.save(self.neuFreqDict,"neuFreqDict")
       self.save(self.negFreqDict,"negFreqDict")
