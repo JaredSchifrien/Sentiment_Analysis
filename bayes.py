@@ -5,6 +5,7 @@
 #
 
 import math, os, pickle, re
+from math import log10
 
 class Bayes_Classifier:
    posFreqDict = dict()
@@ -60,18 +61,25 @@ class Bayes_Classifier:
                   self.posFreqDict[i] += 1
                else:
                   self.posFreqDict[i] = 1
-      print d
+
       self.save(self.posFreqDict,"posFreqDict")
       self.save(self.neuFreqDict,"neuFreqDict")
       self.save(self.negFreqDict,"negFreqDict")
-      print self.posFreqDict
 
     
    def classify(self, sText):
       """Given a target string sText, this function returns the most likely document
       class to which the target string belongs (i.e., positive, negative or neutral).
       """
-
+      posCount=0
+      negCount=0
+      negProbability=0
+      posProbability=0
+      for word in sText.split(' '):
+         posProbability+= log10(float( (1.0+float(self.posFreqDict[word]))/float(len(self.posFreqDict))))
+         negProbability+= log10(float( (1.0+float(self.negFreqDict[word]))/float(len(self.negFreqDict))))
+      print posProbability
+      print negProbability   
    def loadFile(self, sFilename):
       """Given a file name, return the contents of the file as a string."""
 
