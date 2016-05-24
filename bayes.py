@@ -71,15 +71,26 @@ class Bayes_Classifier:
       """Given a target string sText, this function returns the most likely document
       class to which the target string belongs (i.e., positive, negative or neutral).
       """
-      posCount=0
-      negCount=0
-      negProbability=0
-      posProbability=0
-      for word in sText.split(' '):
-         posProbability+= log10(float( (1.0+float(self.posFreqDict[word]))/float(len(self.posFreqDict))))
-         negProbability+= log10(float( (1.0+float(self.negFreqDict[word]))/float(len(self.negFreqDict))))
-      print posProbability
-      print negProbability   
+      threshold = .1
+      posCount = float(sum(self.posFreqDict.itervalues()))
+      negCount = float(sum(self.negFreqDict.itervalues()))
+      negProbability=0.0
+      posProbability=0.0
+      for word in self.tokenize(sText):
+         if word in self.posFreqDict:
+            posProbability+= log10(float( (1.0+float(self.posFreqDict[word]))/posCount))
+         else:
+            posProbability+=log10(float(1.0/posCount))
+         if word in self.negFreqDict:
+            negProbability+= log10(float( (1.0+float(self.negFreqDict[word]))/negCount))
+         else:
+            negProbability+= log10(float(1.0/negCount))
+      if abs(posProbability-negProbability)< .1 :
+         return "neutral"
+      elif posProbability>negProbability:
+         return "positive"
+      else:
+         return "negative"   
    def loadFile(self, sFilename):
       """Given a file name, return the contents of the file as a string."""
 
