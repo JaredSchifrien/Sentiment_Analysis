@@ -35,22 +35,39 @@ class Bayes_Classifier:
          self.train(lFileList)
          Original_d = {}
          d = {}
+         correct_positives =0
+         incorrect_positives=0
+         correct_negatives =0
+         incorrect_negatives = 0
          for file in lFileList[int(float(len(lFileList))*.9):len(lFileList)+1]:
             rating = int(file[7])
             if rating in Original_d:
                Original_d[rating] = Original_d[rating]+1
             else:
                Original_d[rating]=1
+
             fileText = self.loadFile("movies_reviews/" + str(file))
             result = self.classify(fileText)
             if result in d:
                d[result]=d[result]+1
             else:
                d[result]=1
-         
+            if rating==5:
+               if result =="positive":
+                  correct_positives+=1
+               else:
+                  incorrect_positives+=1
+            else:
+               if result == "negative":
+                  correct_negatives+=1
+               else:
+                  incorrect_negatives+=1
          print Original_d
          print d
-         
+         print correct_positives
+         print incorrect_positives
+         print correct_negatives
+         print incorrect_negatives
          #Original_d is the actual values, knowing that 1 is negative 5 is  positive
          #d is what we found, knowing that "negative" is negative, "positive"
          
