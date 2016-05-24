@@ -5,7 +5,7 @@
 #
 
 import math, os, pickle, re
-import random
+from random import shuffle
 from math import log10
 
 class Bayes_Classifier:
@@ -51,10 +51,10 @@ class Bayes_Classifier:
    def train(self, shuffled):   
       """Trains the Naive Bayes Sentiment Classifier."""
 
-
+      print shuffled
       d= {}    
       
-      for i = range(1,10):
+      for i in range(1,10):
          for file in range(len(shuffled)*(float(i)/10.0)):
             rating = int(file[7])
             if rating in d:
