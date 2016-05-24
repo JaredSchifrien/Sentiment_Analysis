@@ -69,12 +69,12 @@ class Bayes_Classifier:
          print correct_negatives #Actually negative, we said negative
          print incorrect_negatives #Actually negative, we said positive
          
-         A = correct_positives
-         B = incorrect_positives
-         C = incorrect_negatives
+         A = float(correct_positives)
+         B = float(incorrect_positives)
+         C = float(incorrect_negatives)
 
-         Recall = (A / (A + B)) *100
-         Precision = (A / (A + C)) *100
+         Recall = (A / (A + B)) *100.0
+         Precision = (A / (A + C)) *100.0
          FScore = 2 * (Recall*Precision) / (Recall+Precision)
 
          print Recall
