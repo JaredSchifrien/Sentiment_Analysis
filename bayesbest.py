@@ -1,13 +1,14 @@
-# Name: Jared Schifrien: Jss134
+# Name: Jared Schifrien: Jss134 and Wyatt Cook : wsc147
 # Date: May 11, 2016
 # Description: 
-#
+#All group members were present and contributing during all work on this project.
 #
 
 import math, os, pickle, re
 from math import log10
 
 class Bayes_Classifier:
+   """ this class is our bayes classifier..."""
    posFreqDict = dict()
    neuFreqDict = dict()
    negFreqDict = dict()
@@ -46,19 +47,26 @@ class Bayes_Classifier:
          wordList = self.tokenize(fileText)
 
          for i in range(len(wordList)-1):
+            #getting first and second words, with lower case
             first = wordList[i].lower()
             second = wordList[i+1].lower()
+            #if it is bad rating 
             if rating == 1:
+               #check if in dict
                if first+second in self.negFreqDict:
                   self.negFreqDict[first+second] += 1
                else:
                   self.negFreqDict[first+second] = 1
+                  #neutral rating
             elif rating < 4:
+               #check in dict
                if first+second in self.neuFreqDict:
                   self.neuFreqDict[first+second] += 1
                else:
                   self.neuFreqDict[first+second] = 1
+            #positive rating
             else:
+               #check in dict
                if first+second in self.posFreqDict:
                   self.posFreqDict[first+second] += 1
                else:
@@ -74,22 +82,27 @@ class Bayes_Classifier:
       class to which the target string belongs (i.e., positive, negative or neutral).
       """
       threshold = .1
+      #keeping track of probabilities and the size of each ones
       posCount = float(sum(self.posFreqDict.itervalues()))
       negCount = float(sum(self.negFreqDict.itervalues()))
       negProbability=0.0
       posProbability=0.0
       wordList = self.tokenize(sText)
       for i in range(len(wordList)-1):
+         #getting first and second words
          first = wordList[i].lower()
          second = wordList[i+1].lower()
+         #checking if pos
          if first+second in self.posFreqDict:
             posProbability+= log10(float( (1.0+float(self.posFreqDict[first+second]))/posCount))
          else:
             posProbability+=log10(float(1.0/posCount))
+         #checing if neg
          if first+second in self.negFreqDict:
             negProbability+= log10(float( (1.0+float(self.negFreqDict[first+second]))/negCount))
          else:
             negProbability+= log10(float(1.0/negCount))
+      #we determined .1 to be our threshold after some trial and error
       if abs(posProbability-negProbability)< .1 :
          return "neutral"
       elif posProbability>negProbability:

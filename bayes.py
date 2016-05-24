@@ -1,13 +1,14 @@
-# Name: Jared Schifrien: Jss134
+# Name: Jared Schifrien: Jss134 and Wyatt Cook: wsc147
 # Date: May 11, 2016
 # Description: 
-#
+#All group members were present and contributing during all work on this project. 
 #
 
 import math, os, pickle, re
 from math import log10
 
 class Bayes_Classifier:
+   """Classifying with bayes yay""" 
    posFreqDict = dict()
    neuFreqDict = dict()
    negFreqDict = dict()

@@ -1,0 +1,13 @@
+************************************
+BayesBest::::
+Recall: 66.64
+Precision: 98.7
+F-Score: 79.6
+**************************************
+Bayes regular:::::::
+Recall: 82.98
+Precision: 96.68
+F-Score: 89.30
+**************************************
+This is a very interesting result, as after spending time optimizing bayesbest in order to perform better, after evaluation, we slightly increased precision, but we great decreased recall.  This caused our f-score to go down signiifcantly, despite using bigrams, and adjusting for capitalizations.  
+While we thought bigrams would be a big improvement, this data did not allow bigrams to shine.  We still believe the small case improvments from normalizing cases were there, just did not show as much due to the decrease in recall due to bigrams.  
