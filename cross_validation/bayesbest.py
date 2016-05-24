@@ -32,7 +32,20 @@ class Bayes_Classifier:
             break
          shuffled = shuffle(lFileList)
          self.train(shuffled)
-         
+         d = {}
+         actual_d = {}
+         for file in range(len(shuffled)*.9, len(shuffled)+1):
+            rating = int(file[7])
+            if rating in d:
+               d[rating] = d[rating]+1
+            else:
+               d[rating]=1
+            fileText = self.loadFile("movies_reviews/" + str(file))
+            result = self.classify(fileText)
+            if result in actual_d:
+               actual_d[result]=actual_d[result]+1
+            else:
+               actual_d[result]=1
 
 
    def train(self, shuffled):   
