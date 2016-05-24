@@ -35,7 +35,7 @@ class Bayes_Classifier:
          self.train(lFileList)
          d = {}
          actual_d = {}
-         for file in range(len(shuffled)*.9, len(shuffled)+1):
+         for file in lFileList[int(float(len(lFileList))*.9):len(lFileList)+1]:
             rating = int(file[7])
             if rating in d:
                d[rating] = d[rating]+1
@@ -47,21 +47,20 @@ class Bayes_Classifier:
                actual_d[result]=actual_d[result]+1
             else:
                actual_d[result]=1
-
+         print d
+         print actual_d
+         #d is the actual values, knowing that 1 is negative 5 is  positive
+         #actual_d is what we found, knowing that "negative" is negative, "positive"
 
    def train(self, shuffled):   
       """Trains the Naive Bayes Sentiment Classifier."""
 
-      print shuffled
-      d= {}    
-      
+         
       for i in range(1,10):
-         for file in range(len(shuffled)*(float(i)/10.0)):
+         for file in shuffled[0: int(float(len(shuffled))*.9)]:
+
             rating = int(file[7])
-            if rating in d:
-               d[rating] = d[rating]+1
-            else:
-               d[rating]=1
+
             fileText = self.loadFile("movies_reviews/" + str(file))
             wordList = self.tokenize(fileText)
 
@@ -91,9 +90,9 @@ class Bayes_Classifier:
                   else:
                      self.posFreqDict[first+second] = 1
 
-         self.save(self.posFreqDict,"posFreqDict")
-         self.save(self.neuFreqDict,"neuFreqDict")
-         self.save(self.negFreqDict,"negFreqDict")
+      self.save(self.posFreqDict,"posFreqDict")
+      self.save(self.neuFreqDict,"neuFreqDict")
+      self.save(self.negFreqDict,"negFreqDict")
 
     
    def classify(self, sText):
