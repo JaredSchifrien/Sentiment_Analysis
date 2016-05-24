@@ -33,24 +33,28 @@ class Bayes_Classifier:
          random.shuffle(lFileList)
          
          self.train(lFileList)
+         Original_d = {}
          d = {}
-         actual_d = {}
          for file in lFileList[int(float(len(lFileList))*.9):len(lFileList)+1]:
             rating = int(file[7])
-            if rating in d:
-               d[rating] = d[rating]+1
+            if rating in Original_d:
+               Original_d[rating] = Original_d[rating]+1
             else:
-               d[rating]=1
+               Original_d[rating]=1
             fileText = self.loadFile("movies_reviews/" + str(file))
             result = self.classify(fileText)
-            if result in actual_d:
-               actual_d[result]=actual_d[result]+1
+            if result in d:
+               d[result]=d[result]+1
             else:
-               actual_d[result]=1
+               d[result]=1
+         
+         print Original_d
          print d
-         print actual_d
-         #d is the actual values, knowing that 1 is negative 5 is  positive
-         #actual_d is what we found, knowing that "negative" is negative, "positive"
+         
+         #Original_d is the actual values, knowing that 1 is negative 5 is  positive
+         #d is what we found, knowing that "negative" is negative, "positive"
+         
+         
 
    def train(self, shuffled):   
       """Trains the Naive Bayes Sentiment Classifier."""
