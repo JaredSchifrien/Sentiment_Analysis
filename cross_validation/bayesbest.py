@@ -64,14 +64,22 @@ class Bayes_Classifier:
                   incorrect_negatives+=1
          print Original_d
          print d
-         print correct_positives
-         print incorrect_positives
-         print correct_negatives
-         print incorrect_negatives
-         #Original_d is the actual values, knowing that 1 is negative 5 is  positive
-         #d is what we found, knowing that "negative" is negative, "positive"
+         print correct_positives #Actually positive, we said positive
+         print incorrect_positives #Actually positive, we said negative
+         print correct_negatives #Actually negative, we said negative
+         print incorrect_negatives #Actually negative, we said positive
          
-         
+         A = correct_positives
+         B = incorrect_positives
+         C = incorrect_negatives
+
+         Recall = (A / (A + B)) *100
+         Precision = (A / (A + C)) *100
+         FScore = 2 * (Recall*Precision) / (Recall+Precision)
+
+         print Recall
+         print Precision
+         print FScore
 
    def train(self, shuffled):   
       """Trains the Naive Bayes Sentiment Classifier."""
