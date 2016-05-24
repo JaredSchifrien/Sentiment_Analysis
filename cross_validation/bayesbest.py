@@ -5,7 +5,7 @@
 #
 
 import math, os, pickle, re
-from random import shuffle
+import random
 from math import log10
 
 class Bayes_Classifier:
@@ -30,8 +30,9 @@ class Bayes_Classifier:
          for fFileObj in os.walk("movies_reviews/"): 
             lFileList = fFileObj[2]
             break
-         shuffled = shuffle(lFileList)
-         self.train(shuffled)
+         random.shuffle(lFileList)
+         
+         self.train(lFileList)
          d = {}
          actual_d = {}
          for file in range(len(shuffled)*.9, len(shuffled)+1):
